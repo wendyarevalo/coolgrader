@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+import { userUUID } from './getUuid';
+
+const data = await fetch('http://web:7800/api/getSolved?uuid='+userUUID).then((response) =>
+  response.json()
+);
+
+
+---
+
+<Layout title="Cool programming.">
+	<main>
+		<h1><span class="text-gradient">Cool</span> programming practice</h1>
+		<p class="instructions">
+			To get started, choose a programming exercise from the list below.<br />
+			Solved exercises are marked as: <strong>Solved</strong>.
+			<br>
+		</p>
+		<ul role="list" class="link-card-grid">
+			<Card
+				href={data[0].url}
+				title={data[0].title}
+				body={data[0].solved}
+			/>
+			<Card
+				href={data[1].url}
+				title={data[1].title}
+				body={data[1].solved}
+			/>
+			<Card
+				href={data[2].url}
+				title={data[2].title}
+				body={data[2].solved}
+			/>
+			<Card
+				href={data[3].url}
+				title={data[3].title}
+				body={data[3].solved}
+			/>
+			<Card
+				href={data[4].url}
+				title={data[4].title}
+				body={data[4].solved}
+			/>
+			<Card
+				href={data[5].url}
+				title={data[5].title}
+				body={data[5].solved}
+			/>
+			<Card
+				href={data[6].url}
+				title={data[6].title}
+				body={data[6].solved}
+			/>
+			<Card
+				href={data[7].url}
+				title={data[7].title}
+				body={data[7].solved}
+			/>
+		</ul>
+	</main>
+</Layout>
+
+<style>
+	.instructions {
+		line-height: 1.6;
+		margin: 1rem 0;
+		border: 1px solid rgba(var(--accent), 25%);
+		background-color: white;
+		padding: 1rem;
+		border-radius: 0.4rem;
+	}
+	.instructions strong {
+		color: rgb(var(--accent));
+	}
+	.link-card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+		gap: 1rem;
+		padding: 0;
+	}
+</style>

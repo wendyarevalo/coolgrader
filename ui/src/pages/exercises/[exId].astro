@@ -1,0 +1,40 @@
+---
+import Editor from '../../components/Editor.astro';
+import Handout from '../../components/Handout.astro';
+import Layout from '../../layouts/Layout.astro';
+import { userUUID } from './../getUuid';
+
+export function getStaticPaths() {
+  return [
+    {params: {exId: '1'}},
+    {params: {exId: '2'}},
+    {params: {exId: '3'}},
+	  {params: {exId: '4'}},
+    {params: {exId: '5'}},
+    {params: {exId: '6'}},
+	  {params: {exId: '7'}},
+    {params: {exId: '8'}},
+  ];
+}
+
+const { exId } = Astro.params;
+
+const data = await fetch('http://web:7800/api/getExercise?exerciseId='+exId).then((response) =>
+  response.json()
+);
+
+---
+
+<Layout title="Cool programming.">
+	<main>
+		<h1><span class="text-gradient">Cool</span> programming practice</h1>
+        <Handout
+            title={data.title}
+            body={data.description}
+        />
+        <Editor
+            exerciseId={exId}
+            userUUID = {userUUID}
+        />
+    </main>
+</Layout>

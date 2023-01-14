@@ -1,0 +1,61 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { userUUID } from './../getUuid';
+
+export function getStaticPaths() {
+  return [
+    {params: {exId: '1'}},
+    {params: {exId: '2'}},
+    {params: {exId: '3'}},
+	{params: {exId: '4'}},
+    {params: {exId: '5'}},
+    {params: {exId: '6'}},
+	{params: {exId: '7'}},
+    {params: {exId: '8'}},
+  ];
+}
+
+const { exId } = Astro.params;
+
+const data = await fetch('http://web:7800/api/singleGrade?uuid='+userUUID+'&exercise_id='+exId).then((response) =>
+  response.json()
+);
+---
+
+<Layout title="Cool programming.">
+	<main>
+		<h1><span class="text-gradient">Cool</span> programming practice</h1>
+		<div class="instructions">
+			<p id="message" style="margin-top: 0;">Your code for exercise {exId} was graded before, here's your result: </p>
+			<strong>{data.grade}</strong>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	.instructions {
+		line-height: 1.6;
+		margin: 1rem 0;
+		border: 1px solid rgba(var(--accent), 25%);
+		background-color: white;
+		padding: 1rem;
+		border-radius: 0.4rem;
+	}
+	.btn{
+        margin-top: 0.5rem;
+        display: flex;
+		padding: 0.5rem;
+		background-color: white;
+        background-image: var(--accent-gradient);
+		background-size: 400%;
+		border-radius: 0.5rem;
+        border-color: purple;
+		background-position: 100%;
+		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    }
+    .btn:is(:hover, :focus-within) {
+        background-position: 0;
+		color: white;
+	}
+</style>
